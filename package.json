@@ -1,0 +1,9 @@
+{
+  "name": "cursed-castle",
+  "version": "2.30.0",
+  "private": true,
+  "description": "Cursed Castle: an educational first-person dungeon crawler for kids (web version).",
+  "scripts": {
+    "start": "npx --yes http-server . -p 8080 -c-1"
+  }
+}

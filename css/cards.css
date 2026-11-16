@@ -1,0 +1,54 @@
+/* Card faces. */
+/* ---------- cards (frames: art-src/ui/card-frames.png -> assets/img/ui/card-*.webp) ----------
+   Red = attack, blue = block, green = skill. Every part is placed in % of the card, matching the frame picture. */
+.card {
+  width: 126px; height: 218px; position: relative; flex: none; text-align: center; color: #3a2408;
+  background: center / 100% 100% no-repeat; transition: transform .15s, filter .2s; filter: drop-shadow(0 3px 0 rgba(10, 4, 20, .55));
+}
+.card.attack { --c: #c0352c; background-image: url('../assets/img/ui/card-attack.webp'); }
+.card.block { --c: #2a62c8; background-image: url('../assets/img/ui/card-block.webp'); }
+.card.skill { --c: #2f9a3a; background-image: url('../assets/img/ui/card-skill.webp'); }
+.card .cost { position: absolute; left: 8.7%; top: 4.9%; width: 23.4%; height: 13.5%; display: flex; align-items: center; justify-content: center;
+  font-family: 'Fredoka'; font-weight: 600; font-size: 19px; color: #3a2408; text-shadow: 0 1px 0 rgba(255, 255, 255, .6); }
+.card .nm { position: absolute; left: 33%; right: 9%; top: 4%; height: 15%; display: flex; align-items: center; justify-content: center;
+  font-family: 'Fredoka'; font-weight: 600; font-size: 14px; line-height: 14.5px; }
+/* picture window: the hero doing the move (or the card's emoji until it has a picture) */
+.card .pic { position: absolute; left: 11.3%; right: 11.5%; top: 22.4%; bottom: 44.7%; border-radius: 5px; overflow: hidden;
+  background: radial-gradient(circle at 50% 45%, #fffaf0 0%, #f1e2bd 55%, #d9c290 100%); }
+.card .pic img { width: 100%; height: 100%; object-fit: cover; display: block; -webkit-user-drag: none; }
+.card .ic { display: block; font-size: 40px; line-height: 64px; }
+.card .valrow { position: absolute; left: 0; right: 0; top: 49.5%; height: 34px; z-index: 2; }
+.card .val { margin: 0 auto; width: 34px; height: 34px; border-radius: 50%; background: var(--c); color: #fff; font-family: 'Fredoka'; font-weight: 600; font-size: 21px; line-height: 28px; border: 3px solid #fff; box-shadow: 0 2px 0 rgba(0, 0, 0, .3); }
+.card .rng { position: absolute; right: 9%; bottom: 0; font-size: 12px; font-weight: 600; color: #6a4a2a; }
+.card .tx { position: absolute; left: 9%; right: 9%; top: 64%; bottom: 20.2%; display: flex; align-items: center; justify-content: center;
+  font-size: 12px; line-height: 13px; font-weight: 600; color: #4a2a14; }
+.card .tg { position: absolute; left: 34%; right: 10%; top: 80.4%; height: 12%; display: flex; align-items: center; justify-content: center;
+  font-family: 'Fredoka'; font-weight: 600; font-size: 11.5px; letter-spacing: .3px; color: #fff; text-shadow: 0 1px 0 rgba(0, 0, 0, .45); text-transform: uppercase; white-space: nowrap; }
+.card .tx.long { font-size: 10.5px; line-height: 11px; }
+.card .tg.long { font-size: 8.6px; letter-spacing: 0; left: 37%; right: 8%; }
+/* in the hand (as in the design): no ? bubble, the range is in the text */
+.card.hand .valrow { display: none; }
+.card.hand .tx { top: 57%; }
+/* the Witch's curse drains the picture's colour; solving the puzzle brings it back */
+.card.cursed .pic img, .card.weak .pic img { filter: grayscale(.8) sepia(.5) hue-rotate(220deg) saturate(1.7) brightness(.78); }
+.card.cursed .pic::after { content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(circle at 50% 50%, rgba(170, 90, 255, 0) 35%, rgba(110, 30, 190, .45) 100%); }
+.card.reveal .pic img { animation: unveil .8s ease-out; }
+@keyframes unveil {
+  0% { filter: grayscale(.8) sepia(.5) hue-rotate(220deg) saturate(1.7) brightness(.78); }
+  35% { filter: brightness(1.9) saturate(1.2); }
+  100% { filter: none; }
+}
+.card.cursed .val { background: #6a2aa8; animation: wob 1.6s ease-in-out infinite; }
+@keyframes wob { 0%, 100% { transform: rotate(-6deg); } 50% { transform: rotate(6deg); } }
+.card.unplayable { filter: grayscale(.75) brightness(.7) drop-shadow(0 3px 0 rgba(10, 4, 20, .55)); }
+.card.picked { transform: translateY(-14px); }
+#hand .card:not(.unplayable):active { transform: translateY(-10px) scale(1.03); }
+.card .lock { position: absolute; left: 6%; right: 6%; top: 34%; font-family: 'Fredoka'; font-weight: 600; font-size: 13px; color: #fff; background: rgba(120, 30, 30, .92); border-radius: 6px; padding: 3px 0; z-index: 3; }
+.card.mini { transform: scale(.8); margin: -22px -12px; }
+.card.big { transform: scale(1.45); margin: 50px 30px; }
+
+/* keyword legend under the deck and the card rewards */
+.kw-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 10px; margin: 12px auto 4px; max-width: 980px; font-size: 16px; color: #e8dcf5; }
+.kw-legend span { background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .15); border-radius: 999px; padding: 3px 12px; }
+.kw-legend b { color: #ffd76a; text-transform: uppercase; font-size: 14px; letter-spacing: .5px; margin-right: 4px; }

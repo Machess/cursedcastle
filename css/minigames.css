@@ -1,0 +1,25 @@
+/* Mini-games: memory, music box, potions, floorboards. */
+/* mini-games */
+.mem-grid { display: grid; grid-template-columns: repeat(4, 120px); gap: 12px; justify-content: center; margin: 10px 0; }
+.mem { height: 120px; border-radius: 14px; font-size: 64px; background: linear-gradient(#6a3aa8, #3a1a68); display: flex; align-items: center; justify-content: center; padding: 0; border: 4px solid #c8a0ff; }
+.mem.up { background: #f8eed6; border-color: var(--gold); }
+.mem.done { background: #d8f8dc; border-color: #6fd07b; }
+.simon { display: grid; grid-template-columns: repeat(2, 170px); gap: 16px; justify-content: center; margin: 14px 0; }
+.bell { height: 140px; border-radius: 20px; font-size: 80px; border: 5px solid rgba(255, 255, 255, .5); opacity: .7; transition: opacity .1s, transform .1s; }
+.bell.lit { opacity: 1; transform: scale(1.06); border-color: #fff; }
+.flasks { display: flex; gap: 18px; justify-content: center; margin: 12px 0; }
+.flask { width: 120px; height: 150px; border-radius: 16px; font-size: 22px; font-family: 'Pixelify'; border: 4px solid #fff8; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 8px; color: #fff; text-shadow: 0 2px 0 #000; }
+.flask .f { height: 76px; margin-bottom: 6px; filter: drop-shadow(0 3px 0 rgba(0,0,0,.35)); }
+.flask.sel { transform: translateY(-10px); border-color: #fff; box-shadow: 0 0 0 4px var(--gold); }
+.target-pot { display: inline-block; width: 90px; height: 90px; border-radius: 50%; border: 5px solid #fff; vertical-align: middle; margin: 0 10px; }
+.boards { display: grid; grid-template-columns: repeat(4, 110px); gap: 12px; justify-content: center; margin: 12px 0; }
+.board { height: 90px; border-radius: 8px; font-family: 'Fredoka'; font-weight: 600; font-size: 42px; color: #3a2408; background: repeating-linear-gradient(90deg, #c8955a 0 20px, #b8854a 20px 22px); border: 4px solid #6a4a20; }
+.board.ok { background: #7ed08a; border-color: #2a7a3a; }
+.board.creak { background: #ff9a8a; border-color: #a03020; }
+.reward-cards { display: flex; gap: 24px; justify-content: center; margin: 18px 0; }
+.reward-cards .card { transform: scale(1.3); margin: 30px 18px; }
+
+.mem .mem-back { height: 76px; opacity: .9; }
+.mem .mem-face { height: 100px; }
+.bell .bell-svg { width: 1em; height: 1em; filter: drop-shadow(0 4px 0 rgba(0,0,0,.3)); }
+.pz-feedback .ico.snore { height: 1.5em; vertical-align: -.45em; margin: 0 2px; }

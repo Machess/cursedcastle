@@ -1,0 +1,73 @@
+/* Pop-ups: puzzles, deck, map, journal, rewards. */
+/* ---------- modal ---------- */
+#modal { position: absolute; inset: 0; background: rgba(8, 4, 14, .66); display: flex; align-items: center; justify-content: center; z-index: 50; }
+#modalBox {
+  position: relative; min-width: 560px; max-width: 1140px; max-height: 760px; overflow: auto; padding: 22px 26px; border-radius: 16px;
+  background: linear-gradient(#3a3150, #241e30); border: 5px solid #8a7ca6; box-shadow: 0 8px 0 #0a080e; text-align: center;
+}
+#modalBox h2 { margin: 0 0 10px; font-size: 36px; color: var(--gold); text-shadow: 0 3px 0 #2a1240; }
+#modalBox .sub { font-size: 21px; color: var(--muted); margin-bottom: 12px; }
+.modal-close { position: absolute; right: 10px; top: 8px; font-size: 30px; width: 46px; height: 46px; border-radius: 50%; background: #4a4060; border: 3px solid #8a7ca6; font-family: 'Pixelify'; }
+.row { display: flex; justify-content: center; align-items: center; gap: 14px; flex-wrap: wrap; }
+
+.pz-q { font-family: 'Fredoka'; font-weight: 600; font-size: 66px; margin: 10px 0 4px; color: #fff; text-shadow: 0 4px 0 #2a1240; }
+.pz-say { font-size: 22px; color: var(--muted); margin-bottom: 14px; }
+.pz-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; max-width: 600px; margin: 6px auto 14px; font-size: 46px; }
+.pz-grid.small { font-size: 34px; }
+.pz-opts { display: grid; grid-template-columns: repeat(4, 130px); gap: 14px; justify-content: center; margin-top: 8px; }
+.pz-opt { height: 100px; font-family: 'Fredoka'; font-weight: 600; font-size: 54px; border-radius: 14px; background: linear-gradient(#5a5070, #3a3248); border: 4px solid #a090c0; box-shadow: 0 5px 0 #14101a; }
+.pz-opt.emo { font-size: 54px; }
+.pz-opt:active { transform: translateY(3px); }
+.pz-opt.right { background: linear-gradient(#6fd07b, #3a8a46); border-color: #d0ffd8; }
+.pz-opt.wrong { background: linear-gradient(#e0644f, #a8382a); border-color: #ffd0c8; }
+.pz-feedback { font-family: 'Pixelify'; font-size: 32px; min-height: 44px; margin-top: 14px; }
+.pz-feedback.good { color: #8ef09a; } .pz-feedback.bad { color: #ffb0a0; }
+.pz-card { display: inline-block; vertical-align: middle; margin-right: 18px; }
+.pz-wrap { display: flex; align-items: center; justify-content: center; gap: 20px; }
+
+.deck-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-width: 1060px; }
+.big-map { image-rendering: pixelated; border-radius: 8px; border: 4px solid #8a6a3a; }
+.journal { text-align: left; font-size: 21px; line-height: 1.45; max-width: 820px; }
+.journal li { margin-bottom: 6px; }
+.journal .done { color: #8ef09a; } .journal .todo { color: var(--text); }
+.ending-art { display: block; width: 100%; max-width: 600px; margin: 0 auto 10px; border-radius: 10px; border: 3px solid #f2c94c; image-rendering: auto; }
+.forge-img { display: block; width: 96px; height: 96px; margin: 0 auto -6px; }
+
+/* ---------- framed pop-up (card reward, curse puzzles): art-src/ui/reward.png -> modal-frame.webp ---------- */
+#modalBox.framed { width: 965px; height: 744px; max-width: none; max-height: none; padding: 0; overflow: visible; border: 0; border-radius: 0; box-shadow: none;
+  background: url('../assets/img/ui/modal-frame.webp') 0 0 / 100% 100% no-repeat; }
+.fr-title { position: absolute; left: 262px; width: 441px; top: 27px; height: 54px; display: flex; align-items: center; justify-content: center; text-align: center;
+  font-family: 'Fredoka'; font-weight: 600; font-size: 38px; line-height: 38px; color: #ffd84a; white-space: nowrap; overflow: hidden;
+  text-shadow: 0 3px 0 #2a1240, 2px 0 0 #2a1240, -2px 0 0 #2a1240, 0 -2px 0 #2a1240; }
+.fr-inner { position: absolute; left: 122px; top: 118px; width: 721px; height: 540px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+#modalBox.framed .sub { font-size: 22px; color: #e8dcf5; margin: 0 0 6px; }
+/* card reward */
+.reward .reward-cards { display: flex; gap: 14px; justify-content: center; margin: 4px 0 2px; }
+.reward .reward-cards .card { transform: none; zoom: 1.45; margin: 0; }
+.reward .reward-cards .card:active { transform: translateY(-4px); }
+.reward .kw-legend { margin: 10px auto 12px; padding: 6px 14px; border-radius: 12px; background: rgba(20, 10, 40, .55); border: 2px solid #6e5a96; gap: 4px 16px; }
+.reward .kw-legend span { background: none; border: 0; padding: 0 4px; }
+.reward .btn.purple { min-width: 220px; font-family: 'Fredoka'; font-weight: 600; font-size: 28px; padding: 8px 24px; }
+/* curse puzzle */
+.pz { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.pz .pz-wrap { gap: 26px; align-items: center; }
+.pz .pz-card { margin: 0; }
+.pz .pz-card .card.big { transform: none; zoom: 1.45; margin: 0; filter: drop-shadow(0 0 18px rgba(255, 220, 120, .45)) drop-shadow(0 3px 0 rgba(10, 4, 20, .55)); }
+.pz-parch { width: 440px; min-height: 270px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  color: #3a2408; padding: 30px 32px; background: url('../assets/img/ui/pz-scroll.webp') 0 0 / 100% 100% no-repeat; }   /* the torn parchment scroll from the design */
+.pz:not(.with-card) .pz-parch { width: 620px; }
+.pz .pz-say { font-family: 'Fredoka'; font-weight: 600; font-size: 22px; color: #3a2408; margin: 0 0 10px; }
+.pz-qbox { padding: 14px 26px; min-width: 80%; background: url('../assets/img/ui/pz-qbox.webp') 0 0 / 100% 100% no-repeat; }   /* the framed box with corner swirls */
+.pz .pz-q { font-size: 62px; margin: 0; color: #24102e; text-shadow: none; }
+.pz .pz-grid { margin: 4px auto 8px; font-size: 34px; max-width: 360px; }
+.pz .pz-grid.small { font-size: 26px; }
+.pz:not(.with-card) .pz-grid { max-width: 560px; }
+.pz .pz-feedback { font-family: 'Fredoka'; font-weight: 600; font-size: 22px; min-height: 30px; margin-top: 8px; }
+.pz .pz-feedback.good { color: #2f8a3a; } .pz .pz-feedback.bad { color: #b0283a; }
+.pz .pz-opts { grid-template-columns: repeat(4, 140px); gap: 18px; margin: 0; }
+.pz .pz-opt { height: 96px; font-size: 56px; color: #fff; border-radius: 16px; background: linear-gradient(#7458b0, #4e3484); border: 4px solid #a98bd8;
+  box-shadow: 0 0 0 3px #1d1233, 0 6px 0 3px #1d1233; text-shadow: 0 3px 0 #2a1240; }
+.pz .pz-opt.right { background: linear-gradient(#6fd07b, #3a8a46); border-color: #d0ffd8; }
+.pz .pz-opt.wrong { background: linear-gradient(#e0644f, #a8382a); border-color: #ffd0c8; }
+.pz .pz-why { margin: 0; max-width: 680px; background: rgba(20, 10, 40, .6); }
+.pz .pz-why .btn { display: block; margin: 8px auto 0; min-width: 200px; }

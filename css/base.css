@@ -1,0 +1,51 @@
+/* Fonts, colours, reset, buttons, panels, toast and shared animations. */
+@font-face { font-family: 'Pixelify'; src: url('../assets/fonts/pixelify-sans-latin-400-normal.woff2') format('woff2'); font-weight: 400; }
+@font-face { font-family: 'Pixelify'; src: url('../assets/fonts/pixelify-sans-latin-700-normal.woff2') format('woff2'); font-weight: 700; }
+@font-face { font-family: 'Fredoka'; src: url('../assets/fonts/fredoka-latin-400-normal.woff2') format('woff2'); font-weight: 400; }
+@font-face { font-family: 'Fredoka'; src: url('../assets/fonts/fredoka-latin-600-normal.woff2') format('woff2'); font-weight: 600; }
+
+:root {
+  --bg: #120e18; --stone: #2a2433; --stone2: #383046; --stone3: #4a4060; --edge: #5f5476; --edge2: #1a1522;
+  --gold: #f2c94c; --gold2: #b8913a; --purple: #a46ae0; --purple2: #5e2f94; --text: #f4ecdc; --muted: #b9adc9;
+  --red: #d0533f; --green: #4fa35a; --blue: #4f7ad6;
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; height: 100%; background: var(--bg); overflow: hidden; touch-action: none; user-select: none; -webkit-user-select: none; }
+body { font-family: 'Fredoka', sans-serif; color: var(--text); }
+#app { position: absolute; width: 1280px; height: 800px; transform-origin: 0 0; overflow: hidden; background: var(--bg); }
+.screen { position: absolute; inset: 0; }
+.hidden { display: none !important; }
+button { font-family: inherit; color: inherit; cursor: pointer; border: 0; background: none; padding: 0; }
+h1, h2, h3, .px { font-family: 'Pixelify', 'Fredoka', sans-serif; }
+
+/* ---------- buttons & panels ---------- */
+.btn {
+  font-family: 'Pixelify', sans-serif; font-size: 24px; padding: 12px 24px; border-radius: 10px;
+  background: linear-gradient(#5a4f70, #3d3450); border: 3px solid #8a7ca6; box-shadow: 0 4px 0 #1a1522;
+  color: var(--text); transition: transform .08s;
+}
+.btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #1a1522; }
+.btn[disabled] { opacity: .45; }
+.btn.big { font-size: 32px; padding: 16px 36px; }
+.btn.small { font-size: 18px; padding: 6px 12px; }
+.btn.gold { background: linear-gradient(#f2c94c, #b8913a); border-color: #ffe9a0; color: #3a2408; }
+.btn.red { background: linear-gradient(#e0644f, #a8382a); border-color: #ffb0a0; }
+.btn.green { background: linear-gradient(#5fbf6b, #3a8a46); border-color: #b0f0b8; }
+.btn.purple { background: linear-gradient(#a46ae0, #6a3aa8); border-color: #dcc0ff; }
+
+.panel {
+  position: absolute; border: 4px solid var(--edge); border-radius: 8px;
+  background: var(--stone); box-shadow: inset 0 0 0 2px var(--edge2), 0 3px 0 #0a080e;
+}
+.parchment { background: #d8c49a; border-color: #8a6a3a; box-shadow: inset 0 0 0 2px #b89a66; }
+
+
+#toast {
+  position: absolute; left: 50%; top: 24px; transform: translateX(-50%); padding: 10px 22px; border-radius: 12px; z-index: 60;
+  background: rgba(20, 14, 28, .95); border: 3px solid var(--gold); font-family: 'Pixelify'; font-size: 24px; opacity: 0; pointer-events: none; transition: opacity .25s;
+}
+#toast.show { opacity: 1; }
+.shake { animation: shake .3s linear; }
+@keyframes shake { 0%, 100% { transform: translate(0, 0); } 20% { transform: translate(-7px, 3px); } 40% { transform: translate(6px, -4px); } 60% { transform: translate(-5px, -2px); } 80% { transform: translate(4px, 3px); } }
+.hurt-flash { animation: hurtf .35s ease-out; }
+@keyframes hurtf { 0% { box-shadow: inset 0 0 0 200px rgba(255, 60, 40, .45); } 100% { box-shadow: inset 0 0 0 200px rgba(255, 60, 40, 0); } }

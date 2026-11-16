@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#120e18">
+<title>Cursed Castle</title>
+<link rel="icon" href="assets/img/icon.png">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/menu.css">
+<link rel="stylesheet" href="css/intro.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/cards.css">
+<link rel="stylesheet" href="css/modals.css">
+<link rel="stylesheet" href="css/minigames.css">
+<link rel="stylesheet" href="css/kit.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- ===== Start menu ===== -->
+  <section id="menu" class="screen">
+    <canvas id="menuCanvas" width="1280" height="800"></canvas>
+    <div class="menu-title">
+      <h1>Cursed Castle</h1>
+      <p>Break the Witch's curse!</p>
+    </div>
+    <div id="menuLoading"><div class="ml-text">Opening the castle gates…</div><div class="ml-bar"><i id="mlFill"></i></div></div>
+    <div class="menu-buttons hidden">
+      <button id="btnNew" class="btn big gold">New Adventure</button>
+      <button id="btnSettings" class="btn">Settings</button>
+    </div>
+    <div class="menu-foot">v<span id="ver"></span></div>
+  </section>
+
+  <!-- ===== Story intro (Pip the messenger owl) ===== -->
+  <section id="intro" class="screen hidden">
+    <div id="introBgA" class="intro-bg on"></div><div id="introBgB" class="intro-bg"></div>
+    <div id="introFlash"></div>
+    <img id="introPip" alt="Pip the owl">
+    <div id="introBox">
+      <div id="introName">Pip</div>
+      <div id="introText"></div>
+      <div id="introNext" class="hidden"></div>
+    </div>
+    <button id="btnSkipIntro" class="btn small">Skip</button>
+  </section>
+
+  <!-- ===== Character creator ===== (background + button places: views/creatorArt.js, made by tools-src/prepare_creator.py) -->
+  <section id="classSelect" class="screen hidden">
+    <div id="creator">
+      <canvas id="crPreview" width="360" height="600"></canvas>
+      <div id="crBustBox"><canvas id="crBust" width="330" height="330"></canvas></div><div id="crHeroTitle"></div>
+      <input id="crName" maxlength="14" placeholder="Your name" autocomplete="off" spellcheck="false">
+      <div id="crClsName"></div><div id="crStats"></div><div id="crPerks"></div><img id="crEmblem" alt="">
+      <div id="crOptions"></div><div id="crInfo"></div>
+      <button id="crPrev" class="cr-hot" aria-label="Previous class"></button><button id="crNext" class="cr-hot" aria-label="Next class"></button>
+      <button id="crDice" class="cr-hot" aria-label="Silly name"></button>
+      <button id="btnBackMenu" class="cr-hot" aria-label="Back"></button>
+      <button id="btnStart" class="cr-hot" aria-label="Start adventure"></button>
+    </div>
+  </section>
+
+  <!-- ===== Zoom into the gate ===== -->
+  <div id="gateZoom" class="hidden"><div id="gzPic"></div><div id="gzFlash"></div></div>
+
+  <!-- ===== Game ===== -->
+  <!-- ===== Game screen ===== (background + where each live part goes: views/gameUiArt.js, made by tools-src/prepare_gameui.py;
+       views/gameLayout.js puts every element below in its place) -->
+  <section id="game" class="screen hidden">
+    <div id="leftCol">
+      <div id="inventory"><div id="invList"></div></div>
+      <div id="minimapWrap"><canvas id="minimap" width="200" height="180"></canvas></div>
+      <div id="roomName">—</div>
+    </div>
+
+    <div id="center">
+      <div id="viewport">
+        <canvas id="view"></canvas>
+        <div id="vpGlow"></div>
+        <div id="stairFx"><div id="sfShaft"></div><div id="sfChute"></div><div id="sfFade"></div></div>
+        <div id="flash"></div>
+        <div id="roomFade"></div>
+        <img id="vpFrame" alt="">
+        <div id="roomBanner"><div class="rb-name"></div><div class="rb-sub"></div></div>
+        <div id="monHud" class="hidden">
+          <div class="mh-top">
+            <div id="mhName"></div>
+            <div class="bar mhbar"><div class="trough"><div id="mhHpFill" class="fill"></div></div><span id="mhHpTxt"></span></div>
+          </div>
+          <div id="mhStatus"></div>
+          <div id="mhIntent"></div>
+        </div>
+        <div id="vpFx"></div>
+        <div id="battleLog"></div>
+      </div>
+      <div id="textbox">
+        <div id="tbTitle"></div>
+        <img id="tbSpeaker" alt="">
+        <div id="tbBody"><div id="tbText"></div><div id="tbChoices"></div></div>
+      </div>
+      <div id="cardsPanel"><div id="hand" class="hidden"></div></div>
+    </div>
+
+    <div id="rightCol">
+      <div id="heroCard">
+        <div id="hcName"></div><div id="hcCls"></div>
+        <canvas id="hcImg" width="240" height="196"></canvas>
+        <div id="hcBlock" class="hidden"><span></span></div>
+        <div id="hcBuffs"></div>
+        <div id="hcHp" class="bar hp"><div id="hcHpFill" class="fill"></div><span id="hcHpTxt"></span></div>
+        <button id="btnDeck" class="hot" aria-label="Deck"><span id="hcDeckCount"></span></button>
+        <div id="hcEnergy" class="hidden"></div>
+      </div>
+      <div id="navPad">
+        <button class="nav hot" data-act="turnL" aria-label="Turn left"></button>
+        <button class="nav hot" data-act="fwd" aria-label="Forward"></button>
+        <button class="nav hot" data-act="turnR" aria-label="Turn right"></button>
+        <button class="nav hot" data-act="left" aria-label="Step left"></button>
+        <button class="nav hot" data-act="back" aria-label="Step back"></button>
+        <button class="nav hot" data-act="right" aria-label="Step right"></button>
+        <button class="mbtn hot" id="btnMap" aria-label="Map"></button>
+        <button class="mbtn hot" id="btnJournal" aria-label="Quest"></button>
+        <button class="mbtn hot" id="btnDeck2" aria-label="Deck"></button>
+        <button class="mbtn hot" id="btnPause" aria-label="Menu"></button>
+      </div>
+      <div id="mbtnDim"></div>
+      <div id="combatPad" class="hidden">
+        <button id="btnEndTurn" class="btn big red">End Turn</button>
+        <button id="btnClue" class="btn">Monster clue</button>
+        <div id="cpInfo"></div>
+        <div id="hcPiles"></div>
+      </div>
+    </div>
+  </section>
+
+  <div id="modal" class="hidden"><div id="modalBox"></div></div>
+  <div id="toast"></div>
+</div>
+
+<!-- core -->
+<script src="js/core/namespace.js"></script>
+<script src="js/core/audio.js"></script>
+<script src="js/views/voiceList.js"></script>
+<script src="js/core/voice.js"></script>
+<script src="js/core/dev.js"></script>
+<!-- models: content + state (no DOM) -->
+<script src="js/models/classes.js"></script>
+<script src="js/models/cards.js"></script>
+<script src="js/models/monsters.js"></script>
+<script src="js/models/items.js"></script>
+<script src="js/models/rooms.js"></script>
+<script src="js/models/castle.js"></script>
+<script src="js/models/maps.js"></script>
+<script src="js/models/forest.js"></script>
+<script src="js/models/puzzles.js"></script>
+<script src="js/models/state.js"></script>
+<script src="js/models/world.js"></script>
+<!-- views: drawing + DOM -->
+<script src="js/views/textures.js"></script>
+<script src="js/views/artData.js"></script>
+<script src="js/views/artTextures.js"></script>
+<script src="js/views/npcArt.js"></script>
+<script src="js/views/monsterArt.js"></script>
+<script src="js/views/friendArt.js"></script>
+<script src="js/views/roomArt.js"></script>
+<script src="js/views/introArt.js"></script>
+<script src="js/views/heroArt.js"></script>
+<script src="js/views/heroView.js"></script>
+<script src="js/views/portraitArt.js"></script>
+<script src="js/views/portraitView.js"></script>
+<script src="js/views/creatorArt.js"></script>
+<script src="js/views/gameUiArt.js"></script>
+<script src="js/views/vaultArt.js"></script>
+<script src="js/views/doorArt.js"></script>
+<script src="js/views/stairsArt.js"></script>
+<script src="js/views/animArt.js"></script>
+<script src="js/views/wallAnim.js"></script>
+<script src="js/views/wallLookArt.js"></script>
+<script src="js/views/secretArt.js"></script>
+<script src="js/views/ceilingArt.js"></script>
+<script src="js/views/wallLook.js"></script>
+<script src="js/views/ceilings.js"></script>
+<script src="js/views/blockArt.js"></script>
+<script src="js/views/cleanArt.js"></script>
+<script src="js/views/blocks.js"></script>
+<script src="js/views/nameTags.js"></script>
+<script src="js/views/sprites.js"></script>
+<script src="js/views/renderer.js"></script>
+<script src="js/views/ui.js"></script>
+<script src="js/views/cardArt.js"></script>
+<script src="js/views/cardView.js"></script>
+<script src="js/views/hud.js"></script>
+<script src="js/views/gameLayout.js"></script>
+<script src="js/views/minimap.js"></script>
+<script src="js/views/forestArt.js"></script>
+<script src="js/views/forestView.js"></script>
+<script src="js/views/puzzleView.js"></script>
+<script src="js/views/combatView.js"></script>
+<script src="js/views/menuScene.js"></script>
+<!-- controllers: game rules + input -->
+<script src="js/controllers/movement.js"></script>
+<script src="js/controllers/input.js"></script>
+<script src="js/controllers/combat.js"></script>
+<script src="js/controllers/minigames.js"></script>
+<script src="js/controllers/secrets.js"></script>
+<script src="js/controllers/menu.js"></script>
+<script src="js/controllers/intro.js"></script>
+<script src="js/controllers/portals.js"></script>
+<script src="js/controllers/poke.js"></script>
+<script src="js/controllers/cleaning.js"></script>
+<script src="js/controllers/forest.js"></script>
+<script src="js/controllers/profiles.js"></script>
+<script src="js/controllers/menus.js"></script>
+<!-- app -->
+<script src="js/main.js"></script>
+</body>
+</html>
